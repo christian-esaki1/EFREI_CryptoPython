@@ -9,7 +9,6 @@ from flask import Flask, request, jsonify
 from flask import Flask, request, jsonify, render_template
 import base64
 
-
 app = Flask(__name__)
 
 @app.route('/')
