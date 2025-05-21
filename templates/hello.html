@@ -1,3 +1,56 @@
-<!doctype html>
-<title>CryptoPython</title>
-<h1>Bienvue dans votre atelier CryptoPython !</h1>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chiffrement / Déchiffrement</title>
+</head>
+<body>
+    <h1>Chiffrement et Déchiffrement</h1>
+
+    <h2>Générer une clé Fernet</h2>
+    <button onclick="generateKey()">Générer une clé</button>
+    <p id="generated-key"></p>
+
+    <h2>Encrypter</h2>
+    <input type="text" id="encrypt-text" placeholder="Texte à encrypter">
+    <input type="text" id="encrypt-key" placeholder="Clé Fernet">
+    <button onclick="encrypt()">Encrypter</button>
+    <p id="encrypt-result"></p>
+
+    <h2>Décrypter</h2>
+    <input type="text" id="decrypt-text" placeholder="Texte chiffré">
+    <input type="text" id="decrypt-key" placeholder="Clé Fernet">
+    <button onclick="decrypt()">Décrypter</button>
+    <p id="decrypt-result"></p>
+
+    <script>
+        function generateKey() {
+            const array = new Uint8Array(32);
+            window.crypto.getRandomValues(array);
+            const key = btoa(String.fromCharCode(...array)).replace(/\+/g, '-').replace(/\//g, '_');
+            document.getElementById("generated-key").innerText = key;
+        }
+
+        function encrypt() {
+            const text = document.getElementById("encrypt-text").value;
+            const key = document.getElementById("encrypt-key").value;
+            fetch(`/encrypt/${encodeURIComponent(text)}/${encodeURIComponent(key)}`)
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById("encrypt-result").innerText = result;
+                });
+        }
+
+        function decrypt() {
+            const text = document.getElementById("decrypt-text").value;
+            const key = document.getElementById("decrypt-key").value;
+            fetch(`/decrypt/${encodeURIComponent(text)}/${encodeURIComponent(key)}`)
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById("decrypt-result").innerText = result;
+                });
+        }
+    </script>
+</body>
+</html>
