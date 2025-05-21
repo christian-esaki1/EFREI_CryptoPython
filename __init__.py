@@ -19,6 +19,7 @@ def encryptage(valeur):
     valeur_bytes = valeur.encode()  # Conversion str -> bytes
     token = f.encrypt(valeur_bytes)  # Encrypt la valeur
     return f"Valeur encryptée : {token.decode()}"  # Retourne le token en str
-                                                                                                                                                     
+
+
 if __name__ == "__main__":
   app.run(debug=True)
